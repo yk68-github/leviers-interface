@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxFrame" name="Leviers_InterfaceFrame">
+		<title>Gestion des leviers</title>
+		<centered>1</centered>
+		<icon>E:\code\0137\Leviers_Interface\lever_39043.ico</icon>
+		<size>800,600</size>
+		<minsize>800,600</minsize>
+		<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+			<pos>336,368</pos>
+			<object class="wxBoxSizer" variable="SizerPrincipal" member="yes">
+				<orient>wxVERTICAL</orient>
+				<object class="sizeritem">
+					<object class="wxBoxSizer" variable="BoxSizer1" member="no">
+						<object class="sizeritem">
+							<object class="wxStaticText" name="wxID_STATICTEXTTailleObjectif" variable="StaticTextTailleObjectif" member="yes">
+								<label>Taille de l&apos;objectif : </label>
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>1</option>
+						</object>
+						<object class="sizeritem">
+							<object class="wxSpinCtrl" name="wxD_SPINCTRLTailleObjectif" variable="SpinCtrlTailleObjectif" member="yes">
+								<value>8</value>
+								<min>8</min>
+								<max>16</max>
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>3</option>
+						</object>
+					</object>
+					<flag>wxALL|wxEXPAND</flag>
+					<border>5</border>
+					<option>1</option>
+				</object>
+				<object class="sizeritem">
+					<object class="wxBoxSizer" variable="BoxSizerObjectif" member="no">
+						<object class="sizeritem">
+							<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+								<label>Objectif : </label>
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>1</option>
+						</object>
+						<object class="sizeritem">
+							<object class="wxRadioBox" name="wxID_RADIOBOX1" variable="RadioEncodage" member="yes">
+								<label>Encodage</label>
+								<content>
+									<item>Décimal</item>
+									<item>Binaire</item>
+								</content>
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>4</option>
+						</object>
+						<object class="sizeritem">
+							<object class="wxTextCtrl" name="wxID_TEXTCTRLObjectif" variable="TextCtrlObjectif" member="yes">
+								<value>0</value>
+							</object>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+							<border>5</border>
+							<option>12</option>
+						</object>
+					</object>
+					<flag>wxALL|wxEXPAND</flag>
+					<border>5</border>
+					<option>1</option>
+				</object>
+				<object class="sizeritem">
+					<object class="wxButton" name="wxID_BUTTON1" variable="ButtonOuvrirFichierCalques" member="yes">
+						<label>Ouvrir un fichier de calques</label>
+						<default>1</default>
+					</object>
+					<flag>wxALL|wxEXPAND</flag>
+					<border>5</border>
+					<option>1</option>
+				</object>
+				<object class="sizeritem">
+					<object class="wxStaticBoxSizer" variable="StaticBoxSizer1" member="no">
+						<label>Résultat</label>
+						<object class="sizeritem">
+							<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
+								<label></label>
+							</object>
+							<flag>wxALL|wxEXPAND</flag>
+							<border>5</border>
+							<option>1</option>
+						</object>
+					</object>
+					<flag>wxALL|wxEXPAND</flag>
+					<border>5</border>
+					<option>6</option>
+				</object>
+			</object>
+		</object>
+		<object class="wxMenuBar" variable="MenuBar1" member="yes">
+			<object class="wxMenu" variable="MenuFichiers" member="yes">
+				<label>&amp;Fichiers</label>
+				<object class="wxMenuItem" name="wxidMenuQuit" variable="MenuItemFermer" member="yes">
+					<label>Quitter</label>
+					<accel>Alt-F4</accel>
+					<help>Fermer l&apos;application</help>
+					<handler function="OnQuit" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="MenuAide" member="yes">
+				<label>Aide</label>
+				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItemAPropos" member="yes">
+					<label>A propos...</label>
+					<accel>F1</accel>
+					<help>Informations à propos de l&apos;application</help>
+					<handler function="OnAbout" entry="EVT_MENU" />
+				</object>
+			</object>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
+			<fields>1</fields>
+			<widths>-1</widths>
+			<styles>wxSB_NORMAL</styles>
+		</object>
+		<object class="wxFileDialog" variable="FileDialogCalques" member="yes">
+			<message>Choisir le fichier</message>
+			<wildcard>*.clq</wildcard>
+		</object>
+	</object>
+</wxsmith>
