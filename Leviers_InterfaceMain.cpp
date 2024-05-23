@@ -52,7 +52,8 @@ const long Leviers_InterfaceFrame::ID_STATICTEXT1 = wxNewId();
 const long Leviers_InterfaceFrame::wxID_RADIOBOX1 = wxNewId();
 const long Leviers_InterfaceFrame::wxID_TEXTCTRLObjectif = wxNewId();
 const long Leviers_InterfaceFrame::wxID_BUTTON1 = wxNewId();
-const long Leviers_InterfaceFrame::ID_STATICTEXT2 = wxNewId();
+const long Leviers_InterfaceFrame::ID_BUTTON1 = wxNewId();
+const long Leviers_InterfaceFrame::wxID_STATICTEXTResultat = wxNewId();
 const long Leviers_InterfaceFrame::ID_PANEL1 = wxNewId();
 const long Leviers_InterfaceFrame::wxidMenuQuit = wxNewId();
 const long Leviers_InterfaceFrame::idMenuAbout = wxNewId();
@@ -105,9 +106,12 @@ Leviers_InterfaceFrame::Leviers_InterfaceFrame(wxWindow* parent,wxWindowID id)
     ButtonOuvrirFichierCalques = new wxButton(Panel1, wxID_BUTTON1, _("Ouvrir un fichier de calques"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("wxID_BUTTON1"));
     ButtonOuvrirFichierCalques->SetDefault();
     SizerPrincipal->Add(ButtonOuvrirFichierCalques, 1, wxALL|wxEXPAND, 5);
+    ButtonExecuter = new wxButton(Panel1, ID_BUTTON1, _("Exécuter le test"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    ButtonExecuter->Disable();
+    SizerPrincipal->Add(ButtonExecuter, 1, wxALL|wxEXPAND, 5);
     StaticBoxSizer1 = new wxStaticBoxSizer(wxHORIZONTAL, Panel1, _("Résultat"));
-    StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
-    StaticBoxSizer1->Add(StaticText2, 1, wxALL|wxEXPAND, 5);
+    StaticTextResultat = new wxStaticText(Panel1, wxID_STATICTEXTResultat, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, _T("wxID_STATICTEXTResultat"));
+    StaticBoxSizer1->Add(StaticTextResultat, 1, wxALL|wxEXPAND, 5);
     SizerPrincipal->Add(StaticBoxSizer1, 6, wxALL|wxEXPAND, 5);
     Panel1->SetSizer(SizerPrincipal);
     SizerPrincipal->Fit(Panel1);
@@ -128,12 +132,26 @@ Leviers_InterfaceFrame::Leviers_InterfaceFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
-    FileDialogCalques = new wxFileDialog(this, _("Choisir le fichier"), wxEmptyString, wxEmptyString, _("*.clq"), wxFD_DEFAULT_STYLE, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
+    FileDialogCalques = new wxFileDialog(this, _("Choisir le fichier"), _("."), wxEmptyString, _("*.clq"), wxFD_OPEN|wxFD_FILE_MUST_EXIST, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
     Center();
 
+    Connect(wxID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&Leviers_InterfaceFrame::OnRadioEncodageSelect);
+    Connect(wxID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Leviers_InterfaceFrame::OnButtonOuvrirFichierCalquesClick);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&Leviers_InterfaceFrame::OnButtonExecuterClick);
     Connect(wxidMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&Leviers_InterfaceFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&Leviers_InterfaceFrame::OnAbout);
     //*)
+
+    wxWindow::InitDialog();
+    DecValidator = new wxTextValidator(wxFILTER_DIGITS, &m_String_TailleObjectif);
+    TextCtrlObjectif->SetValidator(*DecValidator);
+    BinValidator = new wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST , &m_String_TailleObjectif);
+    BinValidator->SetCharIncludes(wxString("01"));
+
+    wxString Display = DecToBin("127");
+    Display.Append("\n");
+    Display.Append(BinToDec("0001001"));
+    StaticTextResultat->SetLabel(Display);
 }
 
 Leviers_InterfaceFrame::~Leviers_InterfaceFrame()
@@ -150,5 +168,72 @@ void Leviers_InterfaceFrame::OnQuit(wxCommandEvent& event)
 void Leviers_InterfaceFrame::OnAbout(wxCommandEvent& event)
 {
     wxString msg = wxbuildinfo(long_f);
-    wxMessageBox(msg, _("Welcome to..."));
+    wxMessageBox(msg, _("Bienvenue à..."));
+}
+
+void Leviers_InterfaceFrame::OnButtonOuvrirFichierCalquesClick(wxCommandEvent& event)
+{
+    if (FileDialogCalques->ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+    wxFileInputStream input_stream(FileDialogCalques->GetPath());
+    if (!input_stream.IsOk())
+    {
+        wxLogError("Impossible d'ouvrir le fichier '%s'.", FileDialogCalques->GetPath());
+        return;
+    }
+
+}
+
+void Leviers_InterfaceFrame::OnRadioEncodageSelect(wxCommandEvent& event)
+{
+    constexpr int DECIMAL = 0;
+
+
+    if ( (RadioEncodage->GetSelection()) == DECIMAL)
+    {
+        TextCtrlObjectif->SetValidator(*DecValidator);
+        TextCtrlObjectif->ChangeValue(BinToDec(TextCtrlObjectif->GetValue()));
+    }
+    else
+    {
+        TextCtrlObjectif->SetValidator(*BinValidator);
+        TextCtrlObjectif->ChangeValue(DecToBin(TextCtrlObjectif->GetValue()));
+    }
+}
+
+void Leviers_InterfaceFrame::OnButtonExecuterClick(wxCommandEvent& event)
+{
+}
+
+
+wxString Leviers_InterfaceFrame::BinToDec(const wxString s)
+{
+    int total = 0;
+    int base = 1;
+    char c;
+
+    for (int i = (s.size()-1); i>=0; i--)
+    {
+        c = s[i];
+        if (c=='1') { total+=base; }
+        base*=2;
+
+    }
+        return wxString::Format("%d", total);
+}
+
+wxString Leviers_InterfaceFrame::DecToBin(const wxString s)
+{
+    int n = 0;
+    if (!(s.ToInt(&n))) return "";
+    wxString BinaryNum = {};
+    wxString Temp = {};
+    int i = 0;
+    while (n > 0) {
+        Temp = wxString::Format("%d", n%2);
+        BinaryNum.Append(Temp);
+        n = n / 2;
+        i++;
+    }
+    return BinaryNum;
 }

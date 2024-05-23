@@ -2669,7 +2669,7 @@
 1716441464 e:\code\0137\leviers_interface\leviers_interfaceapp.h
 	<wx/app.h>
 
-1716444944 e:\code\0137\leviers_interface\leviers_interfacemain.h
+1716475811 e:\code\0137\leviers_interface\leviers_interfacemain.h
 	<wx/button.h>
 	<wx/filedlg.h>
 	<wx/frame.h>
@@ -2681,8 +2681,11 @@
 	<wx/stattext.h>
 	<wx/statusbr.h>
 	<wx/textctrl.h>
+	<wx/log.h>
+	<wx/wfstream.h>
+	<wx/validate.h>
 
-1716445146 source:e:\code\0137\leviers_interface\leviers_interfacemain.cpp
+1716475900 source:e:\code\0137\leviers_interface\leviers_interfacemain.cpp
 	"wx_pch.h"
 	"Leviers_InterfaceMain.h"
 	<wx/msgdlg.h>
@@ -2761,4 +2764,19 @@
 1690656660 e:\wxwidgets\3.2.2.1\include\wx\generic\spinctlg.h
 	"wx/compositewin.h"
 	"wx/textctrl.h"
+
+1690656648 e:\wxwidgets\3.2.2.1\include\wx\wfstream.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/string.h"
+	"wx/stream.h"
+	"wx/file.h"
+	"wx/ffile.h"
+
+1690656650 e:\wxwidgets\3.2.2.1\include\wx\ffile.h
+	"wx/defs.h"
+	"wx/string.h"
+	"wx/filefn.h"
+	"wx/convauto.h"
+	<stdio.h>
 
