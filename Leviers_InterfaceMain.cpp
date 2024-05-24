@@ -132,7 +132,7 @@ Leviers_InterfaceFrame::Leviers_InterfaceFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
-    FileDialogCalques = new wxFileDialog(this, _("Choisir le fichier"), _("."), wxEmptyString, _("*.clq"), wxFD_OPEN|wxFD_FILE_MUST_EXIST, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
+    FileDialogCalques = new wxFileDialog(this, _("Choisir le fichier"), _("."), wxEmptyString, _("*.txt"), wxFD_OPEN|wxFD_FILE_MUST_EXIST, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
     Center();
 
     Connect(wxID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&Leviers_InterfaceFrame::OnRadioEncodageSelect);
@@ -171,16 +171,52 @@ void Leviers_InterfaceFrame::OnAbout(wxCommandEvent& event)
     wxMessageBox(msg, _("Bienvenue à..."));
 }
 
+
+
+
 void Leviers_InterfaceFrame::OnButtonOuvrirFichierCalquesClick(wxCommandEvent& event)
 {
+
     if (FileDialogCalques->ShowModal() == wxID_CANCEL)
-        return;     // the user changed idea...
-    wxFileInputStream input_stream(FileDialogCalques->GetPath());
-    if (!input_stream.IsOk())
-    {
-        wxLogError("Impossible d'ouvrir le fichier '%s'.", FileDialogCalques->GetPath());
         return;
+
+    wxString File = FileDialogCalques->GetPath();
+
+    wxString Str = {};
+    wxTextFile TFile;
+    bool Res = false;
+    int Val = 0;
+    std::bitset<32> bs = {};
+
+    Res = (TFile.Open(File));
+
+    if (!(Res))
+        {
+            wxLogMessage(wxT("Impossible d'ouvrir le fichier"));
+            return;
+        }
+
+    for ( Str = TFile.GetFirstLine(); !TFile.Eof(); Str = TFile.GetNextLine() )
+        {
+            Res = Str.ToInt(&Val);
+            if (!Res)
+            {
+                wxLogMessage(_("Au moins une donnée est incorrecte dans le fichier")); return;
+            }
+            else
+            {
+                bs = std::bitset<32>(Val);
+                lst.push_back(bs);
+            }
+        }
+    wxString Display = {};
+
+    for (auto it : lst)
+    {
+       std::bitset<32> tmp = it;
+       Display.Append("Element = "+tmp.to_string()+" vaut "+BinToDec(tmp.to_string())+"\n");
     }
+    StaticTextResultat->SetLabel(Display);
 
 }
 
@@ -192,12 +228,12 @@ void Leviers_InterfaceFrame::OnRadioEncodageSelect(wxCommandEvent& event)
     if ( (RadioEncodage->GetSelection()) == DECIMAL)
     {
         TextCtrlObjectif->SetValidator(*DecValidator);
-        TextCtrlObjectif->ChangeValue(BinToDec(TextCtrlObjectif->GetValue()));
+        TextCtrlObjectif->Clear();
     }
     else
     {
         TextCtrlObjectif->SetValidator(*BinValidator);
-        TextCtrlObjectif->ChangeValue(DecToBin(TextCtrlObjectif->GetValue()));
+        TextCtrlObjectif->Clear();
     }
 }
 

@@ -137,7 +137,7 @@
 		<object class="wxFileDialog" variable="FileDialogCalques" member="yes">
 			<message>Choisir le fichier</message>
 			<default_dir>.</default_dir>
-			<wildcard>*.clq</wildcard>
+			<wildcard>*.txt</wildcard>
 			<style>wxFD_OPEN|wxFD_FILE_MUST_EXIST</style>
 		</object>
 	</object>

@@ -2669,7 +2669,7 @@
 1716441464 e:\code\0137\leviers_interface\leviers_interfaceapp.h
 	<wx/app.h>
 
-1716475811 e:\code\0137\leviers_interface\leviers_interfacemain.h
+1716485062 e:\code\0137\leviers_interface\leviers_interfacemain.h
 	<wx/button.h>
 	<wx/filedlg.h>
 	<wx/frame.h>
@@ -2684,8 +2684,11 @@
 	<wx/log.h>
 	<wx/wfstream.h>
 	<wx/validate.h>
+	<wx/textfile.h>
+	<bitset>
+	<list>
 
-1716475900 source:e:\code\0137\leviers_interface\leviers_interfacemain.cpp
+1716525322 source:e:\code\0137\leviers_interface\leviers_interfacemain.cpp
 	"wx_pch.h"
 	"Leviers_InterfaceMain.h"
 	<wx/msgdlg.h>
@@ -2779,4 +2782,16 @@
 	"wx/filefn.h"
 	"wx/convauto.h"
 	<stdio.h>
+
+1690656648 e:\wxwidgets\3.2.2.1\include\wx\textfile.h
+	"wx/defs.h"
+	"wx/textbuf.h"
+	"wx/file.h"
+
+1690656651 e:\wxwidgets\3.2.2.1\include\wx\textbuf.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/convauto.h"
+	"wx/string.h"
+	"wx/dynarray.h"
 

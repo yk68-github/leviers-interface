@@ -27,6 +27,10 @@
 #include <wx/log.h>
 #include <wx/wfstream.h>
 #include <wx/validate.h>
+#include <wx/textfile.h>
+#include <bitset>
+#include <list>
+
 
 class Leviers_InterfaceFrame: public wxFrame
 {
@@ -90,6 +94,7 @@ class Leviers_InterfaceFrame: public wxFrame
 
         wxString BinToDec(const wxString);
         wxString DecToBin(const wxString);
+        std::list<std::bitset<32>> lst;
 
         DECLARE_EVENT_TABLE()
 };
